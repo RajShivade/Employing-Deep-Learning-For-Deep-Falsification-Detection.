@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <!-- Include Navbar -->
+    <style>
+        /* General container for both logo and navbar */
+        .header {
+          width: 100%;
+          position: relative;
+        }
+      
+        /* Logo styling */
+        .logo {
+          width: 100%;
+          height: 60px; /* Increased height for better visibility */
+          overflow: hidden;
+          background-color: white; /* Add background color for contrast */
+          z-index: 1000;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: fixed;
+          top: 0px;
+        }
+      
+        .logo img {
+          width: 100%; /* Ensure the logo stretches across the full width */
+          height: 100%; /* Ensure the logo stretches to cover the full height */
+          object-fit: cover; /* Cover the container while maintaining aspect ratio */
+        }
+      
+       
+
+        .bg {
+          background-color: white; /* Change the background to white */
+          padding-top: 60px;
+          min-height: 100vh; /* Ensure the background covers the full viewport height */
+        }
+    </style>
+
+    <div class="header">
+        <!-- Logo at the top -->
+        <div class="logo">
+          <img src="{% static 'images/logo.png' %}" alt="Logo">
+        </div>
+    </div>
+
+    {% include 'nav-bar.html' %}
+
+    <div class="bg">
+        <section class="about-section">
+            <div class="container width-500">
+                <h1>About Us</h1>
+                <p>
+                    Welcome to our Deepfake Detection project, a cutting-edge system designed to combat the rising threat of deepfake technology using advanced deep learning techniques. Our goal is to help safeguard the integrity of media and provide tools for detecting manipulated content.
+                </p>
+                <p>
+                    This project has been developed by a dedicated team of tech enthusiasts:
+                    <ul>
+                        <li>Darshan Hire</li>
+                        <li>Dnyandeep Dhande</li>
+                        <li>Raj Shivade</li>
+                        <li>Parshv Saitwal</li>
+                    </ul>
+                </p>
+                <p>
+                    Together, we have combined our expertise in artificial intelligence, machine learning, and deep learning to create a robust solution that accurately identifies deepfakes. We believe that this system will play a crucial role in ensuring the authenticity of digital media and preventing the spread of misinformation.
+                </p>
+                <p>
+                    Thank you for exploring our project, and we look forward to further developing it to meet future challenges in the AI space.
+                </p>
+            </div>
+        </section>
+    </div>
+
+    <!-- Include Footer -->
+    {% include 'footer.html' %}
+{% endblock %}

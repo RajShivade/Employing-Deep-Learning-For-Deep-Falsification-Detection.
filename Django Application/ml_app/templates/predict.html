@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Inline CSS for logo adjustments (no navbar here) -->
+<style>
+  /* General container for both logo and navbar */
+  .header {
+    width: 100%;
+    position: relative;
+  }
+
+  /* Logo styling */
+  .logo {
+    width: 100%;
+    height: 60px; /* Increased height for better visibility */
+    overflow: hidden;
+    background-color: white; /* Add background color for contrast */
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0px;
+  }
+
+  .logo img {
+    width: 100%; /* Ensure the logo stretches across the full width */
+    height: 100%; /* Ensure the logo stretches to cover the full height */
+    object-fit: cover; /* Cover the container while maintaining aspect ratio */
+  }
+
+  /* Ensure content appears below the header */
+  .container {
+    margin-top: 50px; /* Space between the navbar and content */
+  }
+
+  .page-content {
+    padding-bottom: 100px; /* Adjust to ensure no overlap with footer */
+  }
+  .result {
+    margin-top: 20px;
+    margin-bottom: 90px;
+  }
+</style>
+
+<!-- Header with the logo -->
+<div class="header">
+  <!-- Logo at the top -->
+  <div class="logo">
+    <img src="{% static 'images/logo.png' %}" alt="Logo">
+  </div>
+
+</div>
+
+<!-- Main content of the page -->
+<div class="container">
+  <hr />
+
+  {% if no_faces %}
+  <div class="alert alert-danger">
+    No faces detected. Cannot process the video.
+  </div>
+  {% else %}
+  <h3>Frames Split</h3>
+  <div id="preprocessed_images" class="col-12 mt-4 mb-2">
+    {% for each_image in preprocessed_images %}
+    <img src="{% static each_image %}" class="preprocess" width="auto" height="250" />
+    {% endfor %}
+  </div>
+
+  <h3>Face Cropped Frames</h3>
+  <div id="faces_images" class="col-12 mb-2">
+    {% for each_image in faces_cropped_images %}
+    <img src="{% static each_image %}" class="faces" width="auto" height="150" />
+    {% endfor %}
+  </div>
+
+  <div class="result text-center">
+    <h3>Play to see Result</h3>
+    <video height="320" width="640" id="predict-media" controls>
+      <source src="{{ MEDIA_URL }}{{ original_video }}" type="video/mp4" codecs="avc1.4d002a" />
+    </video>
+    {% if output == "REAL" %}
+    <h4 class="mx-auto">Result: <span style="color:green">{{ output }}</span>
+      <img src="{% static 'images/thumpup.png' %}" alt="real" height="100px" width="auto">
+    {% else %}
+    <h4 class="mx-auto">Result: <span style="color:red">{{ output }}</span>
+      <img src="{% static 'images/thumpdown.png' %}" alt="fake" height="100px" width="auto">
+    {% endif %}
+  </div>
+
+  {% endif %}
+</div>
+
+{% endblock %}
+
+{% block js_cripts %}
+<script src="{% static 'js/face-api.min.js' %}"></script>
+<script>
+  $(document).ready(function () {
+    const video = document.getElementById("predict-media");
+
+    Promise.all([
+      faceapi.nets.ssdMobilenetv1.loadFromUri('/static/json'),
+      faceapi.nets.tinyFaceDetector.loadFromUri("/static/json")
+    ]);
+
+    var detectionTimeout;
+    video.addEventListener("playing", () => {
+      var canvas;
+      if ($('canvas').length < 1) {
+        canvas = faceapi.createCanvasFromMedia(video);
+        canvas.style.top = video.offsetTop + "px";
+        canvas.style.left = video.offsetLeft + "px";
+        document.body.append(canvas);
+      }
+
+      const displaySize = { width: video.width, height: video.height - 60 };
+      faceapi.matchDimensions(canvas, displaySize);
+
+      detectionTimeout = setInterval(async () => {
+        const detections = await faceapi.detectAllFaces(video);
+        const resizedDetections = faceapi.resizeResults(detections, displaySize);
+        canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
+        canvas.style.top = video.offsetTop + "px";
+        canvas.style.left = video.offsetLeft + "px";
+
+        resizedDetections.forEach((result, i) => {
+          console.log(resizedDetections[i].box);
+          var result = '{{ output }}';
+          var confidence = '{{ confidence }}';
+          var drawOptions = { label: result.concat("  ", confidence, "%") };
+          drawOptions["boxColor"] = result === 'REAL' ? "#0f0" : "#f00";
+          var box = { x: resizedDetections[i].box.x, y: resizedDetections[i].box.y, height: 100, width: 100 };
+          const drawBox = new faceapi.draw.DrawBox(box, drawOptions);
+          drawBox.draw(canvas);
+        });
+      }, 1);
+    });
+
+    video.addEventListener("paused", () => {
+      clearTimeout(detectionTimeout);
+    });
+  });
+</script>
+{% endblock %}

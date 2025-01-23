@@ -1,0 +1,172 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif; /* Optional: Set a font */
+    background-image: url("/static/images/background.jpg"); /* Path to your background image */
+    background-size: cover; /* Cover the entire viewport */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-attachment: scroll; /* Make the background scroll with the page */
+}
+
+.bg {
+    min-height: 100vh; /* Ensure the bg class takes full viewport height */
+    display: flex;
+    flex-direction: column;
+}
+section{
+    padding-top: 60px;
+}
+
+.width-400{
+    width: 400px;
+    margin: auto;
+    padding: 20px;
+    margin-top: 80px;
+    margin-bottom: 150px;
+    box-shadow: 0 0px 9px 2px #ccc;
+}
+
+#videos{
+    display: none;
+}
+
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.preprocess {
+    padding-right: 20px;
+    padding-bottom: 50px;
+}
+
+#preprocessed_images {
+  white-space: nowrap;
+  width: auto;
+  height: 250px;
+  padding: 20px;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  box-shadow: 0 0px 9px 2px #ccc;
+}
+
+#faces_images {
+    white-space: nowrap;
+    width: auto;
+    height: 150px;
+    padding: 20px;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    box-shadow: 0 0px 9px 2px #ccc;
+}
+
+.faces {
+    padding-right: 20px;
+    padding-bottom: 50px;
+}
+
+#heatmap_images{
+    white-space: nowrap;
+    width: auto;
+    height: 200px;
+    padding: 20px;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    box-shadow: 0 0px 9px 2px #ccc;
+    margin-bottom: 20px;
+}
+
+.heat-map {
+    padding-right: 20px;
+    padding-bottom: 50px;
+}
+
+span.spinner-border {
+    display: none;
+} 
+
+
+/* Ensure the navbar is fixed at the top and aligned properly */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10;
+    background-color: #343a40; /* Dark background */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+/* Add padding-top to body to prevent content from being hidden under the fixed navbar */
+body {
+    padding-top: 56px; /* Adjust this based on the navbar's height */
+}
+
+/* Footer Styling */
+.footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px 0; /* Adjust padding for smaller height */
+    width: 100%;
+    box-sizing: border-box;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    z-index: 10; /* Ensure it's above other content */
+}
+
+/* Footer links */
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Space between the links */
+}
+
+.footer-links a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.footer-links a:hover {
+    text-decoration: underline;
+}
+
+.logo {
+    width: 100%; /* Full width */
+    height: 60px; /* Adjust height automatically */
+    overflow: hidden;
+    position: fixed; /* Ensure proper positioning */
+}
+
+.logo-img {
+    width: 100%; /* Cover full width */
+    height: 100%; /* Maintain aspect ratio */
+    object-fit: cover;
+    display: block; /* Remove extra space below the image */
+}
+
+.navbar {
+    background-color: rgba(0, 0, 0, 0.5); /* Adjust the alpha for transparency */
+    backdrop-filter: blur(10px); /* Optional: Adds a blur effect to the background */
+    z-index: 1020; /* Ensure it stays above other content */
+}
+.form {
+    background-color: rgba(255, 255, 255, 0.9); /* White background with slight transparency */
+    padding: 20px; /* Add some padding for better spacing */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.form-group label,
+.form-group input,
+.form-group button {
+    color: #333; /* Dark text color for contrast */
+}
+
+.alert {
+    background-color: rgba(255, 0, 0, 0.1); /* Light red background for alerts */
+    color: #d9534f; /* Dark red color for alert text */
+}
