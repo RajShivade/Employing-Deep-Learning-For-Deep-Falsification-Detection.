@@ -122,11 +122,11 @@ The model is trained and evaluated on deepfake-related image/video datasets, whi
 
 4. Evaluation
 
-  - Accuracy
+   - Accuracy
 
-  - Precision, Recall
+   - Precision, Recall
 
-  - Confusion Matrix
+   - Confusion Matrix
 
 5. Prediction
 
